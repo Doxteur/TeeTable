@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ /* Firefox */
+ * {
+    scrollbar-width: auto;
+    scrollbar-color: #4422ef #0e0e10;
+  }
+
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 1px;
+
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #0e0e10;
+
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #4422ef;
+    border-radius: 50;
+  }
+
+.header-selected{
+  background-color: #1C1E20;
+}
