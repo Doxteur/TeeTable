@@ -1,12 +1,60 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
+import { useEffect } from 'react';
+
+import { useSelector } from 'react-redux';
+
 const NewConnectionForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [enableSSL, setEnableSSL] = useState(false);
   const [enableSSHTunnel, setEnableSSHTunnel] = useState(false);
   const [readOnlyMode, setReadOnlyMode] = useState(false);
   const [savePasswords, setSavePasswords] = useState(true);
+
+  const connection = useSelector((state) => state.connection);
+
+  const [newConnection, setNewConnection] = useState({
+    name: '',
+    type: '',
+    mode: '',
+    host: 'localhost',
+    port: 3306,
+    username: '',
+    password: '',
+    database: '',
+    enableSSL: false,
+    enableSSHTunnel: false,
+    readOnlyMode: false,
+    savePasswords: true,
+    environment: '',
+  });
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // TODO: save connection
+    connection.connections.push(newConnection);
+
+    console.log(newConnection);
+
+    //clear form
+    setNewConnection({
+      name: '',
+      type: '',
+      mode: '',
+      host: 'localhost',
+      port: 3306,
+      username: '',
+      password: '',
+      database: '',
+      enableSSL: false,
+      enableSSHTunnel: false,
+      readOnlyMode: false,
+      savePasswords: true,
+    });
+  };
 
   return (
     <div className='p-4 bg-primary text-white max-w-md mx-auto '>
@@ -21,18 +69,37 @@ const NewConnectionForm = () => {
             type='text'
             placeholder='Nom'
             className='w-full bg-primary p-2 rounded mb-2 border-2 border-secondary'
+            onChange={(event) => (newConnection.name = event.target.value)}
           />
         </div>
         <div>
+          <h3 className='text-lg font-semibold mb-2'>Environnement</h3>
+          <select
+            className='w-full bg-primary appearance-none border-2 border-secondary p-2'
+            onChange={(event) => (newConnection.environment = event.target.value)}
+          >
+            <option >Local</option>
+            <option>Staging</option>
+            <option>Production</option>
+          </select>
+        </div>
+
+        <div>
           <label className='block text-sm mb-1'>Type de connection</label>
-          <select className='w-full bg-primary appearance-none border-2 border-secondary p-2'>
+          <select
+            className='w-full bg-primary appearance-none border-2 border-secondary p-2'
+            onChange={(event) => (newConnection.type = event.target.value)}
+          >
             <option>TiDB</option>
           </select>
         </div>
 
         <div>
           <label className='block text-sm mb-1'>Mode de connection</label>
-          <select className='w-full bg-primary rounded appearance-none border-2 border-secondary p-2'>
+          <select
+            className='w-full bg-primary rounded appearance-none border-2 border-secondary p-2'
+            onChange={(event) => (newConnection.mode = event.target.value)}
+          >
             <option>Host and Port</option>
           </select>
         </div>
@@ -44,14 +111,16 @@ const NewConnectionForm = () => {
               type='text'
               defaultValue='localhost'
               className='w-full bg-primary rounded border-2 border-secondary p-2'
+              onChange={(event) => (newConnection.host = event.target.value)}
             />
           </div>
           <div className='w-24'>
             <label className='block text-sm mb-1'>Port</label>
             <input
               type='text'
-              defaultValue='4000'
+              defaultValue={newConnection.port}
               className='w-full bg-primary rounded border-2 border-secondary p-2'
+              onChange={(event) => (newConnection.port = event.target.value)}
             />
           </div>
         </div>
@@ -64,6 +133,7 @@ const NewConnectionForm = () => {
               enableSSL ? 'bg-blue-600' : 'bg-gray-600'
             } transition-colors duration-200 ease-in-out`}
             onClick={() => setEnableSSL(!enableSSL)}
+            onChange={(event) => (newConnection.enableSSL = event.target.value)}
           >
             <span
               className={`block w-4 h-4 bg-white rounded-full transform transition-transform duration-200 ease-in-out ${
@@ -79,6 +149,7 @@ const NewConnectionForm = () => {
             <input
               type='text'
               className='w-full bg-primary rounded border-2 border-secondary p-2'
+              onChange={(event) => (newConnection.username = event.target.value)}
             />
           </div>
           <div className='flex-grow relative'>
@@ -86,6 +157,7 @@ const NewConnectionForm = () => {
             <input
               type={showPassword ? 'text' : 'password'}
               className='w-full bg-primary rounded pr-10 border-2 border-secondary p-2'
+              onChange={(event) => (newConnection.password = event.target.value)}
             />
             <button
               type='button'
@@ -99,7 +171,11 @@ const NewConnectionForm = () => {
 
         <div>
           <label className='block text-sm mb-1'>Default Database</label>
-          <input type='text' className='w-full bg-primary p-2 rounded border-2 border-secondary' />
+          <input
+            type='text'
+            className='w-full bg-primary p-2 rounded border-2 border-secondary'
+            onChange={(event) => (newConnection.database = event.target.value)}
+          />
         </div>
 
         <div className='flex items-center justify-between'>
@@ -119,20 +195,25 @@ const NewConnectionForm = () => {
           </button>
         </div>
 
-
         <div className='flex justify-end space-x-2'>
-          <button type='button' className='bg-secondary text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-200 ease-in-out'>
+          <button
+            type='button'
+            className='bg-secondary text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-200 ease-in-out'
+          >
             Test
           </button>
-          <button type='submit' className='bg-green-500 text-white px-4 py-2 rounded'>
+          <button
+            type='submit'
+            className='bg-green-500 text-white px-4 py-2 rounded'
+            onClick={handleSubmit}
+          >
             Connect
           </button>
         </div>
       </form>
 
       <div className='mt-6'>
-        <div className='flex items-center justify-between'>
-        </div>
+        <div className='flex items-center justify-between'></div>
       </div>
     </div>
   );

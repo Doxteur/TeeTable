@@ -2,7 +2,11 @@ import React from 'react';
 import Side_TableName from './Side_TableName.jsx';
 import { FaPlus } from 'react-icons/fa';
 
+import { useSelector } from 'react-redux';
+
 function Sidebar_connexions() {
+  const connections = useSelector((state) => state.connection);
+
   return (
     <div className='w-72 bg-white border-x border-gray-200 dark:bg-primary dark:border-neutral-700'>
       <div className='flex flex-col h-full max-h-full'>
@@ -57,6 +61,10 @@ function Sidebar_connexions() {
                   />
                 </button>
               </div>
+              {/* Map on collections.collections and search for collections.environment = 'local' */}
+              {connections.connections.map((connection) => {
+                return <h1>{connection.name}</h1>;
+              })}
               <div className='flex items-center gap-2'>
                 <h2 className='text-yellow-500 '>Staging</h2>
                 <FaPlus
@@ -74,7 +82,6 @@ function Sidebar_connexions() {
                 />
               </div>
             </div>
-
           </nav>
           {/* End Nav */}
         </div>
