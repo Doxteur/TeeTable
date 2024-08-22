@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
  /* Firefox */
+
  * {
     scrollbar-width: auto;
     scrollbar-color: #4422ef #0e0e10;

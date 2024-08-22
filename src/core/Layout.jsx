@@ -5,7 +5,8 @@ import Header from './Header.jsx';
 function Layout({ children }) {
   return (
     <div className='bg-tertiary h-screen w-screen'>
-      <Sidebar /> <div className='bg-secondary'>{children}</div>
+      <Sidebar />
+      <div className='bg-secondary'>{children}</div>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default {
         tertiary: '#111116',
         quaternary: '#1C1C24',
         transition: '#1E1E24',
-        success: '#28A745',
+        success: '#4ADE80',
         danger: '#dc2626',
       },
     },
