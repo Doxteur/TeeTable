@@ -66,7 +66,7 @@ function Sidebar_connexions() {
                 />
               </div>
               <div className='flex items-center gap-2'>
-                <h2 className='text-red-500'>Productions</h2>
+                <h2 className='text-red-500'>Production</h2>
                 <FaPlus
                   color='white'
                   size={10}
@@ -74,6 +74,7 @@ function Sidebar_connexions() {
                 />
               </div>
             </div>
+
           </nav>
           {/* End Nav */}
         </div>

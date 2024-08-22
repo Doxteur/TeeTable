@@ -11,8 +11,6 @@ const NewConnectionForm = () => {
   return (
     <div className='p-4 bg-primary text-white max-w-md mx-auto '>
       <div className='flex justify-between items-center mb-4'>
-        <h2 className='text-xl font-bold'>Nouvelle Connection</h2>
-
         <button className='text-blue-400 text-sm'>Via URL</button>
       </div>
 

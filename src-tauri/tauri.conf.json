@@ -1,68 +1,34 @@
 {
+  "productName": "teetable",
+  "version": "0.1.0",
+  "identifier": "com.teetable.app",
   "build": {
     "beforeDevCommand": "yarn dev",
+    "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "yarn build",
-    "devPath": "http://localhost:1420",
-    "distDir": "../dist"
+    "frontendDist": "../dist"
   },
-  "package": {
-    "productName": "tee-table",
-    "version": "0.0.3"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": true,
-      "shell": {
-        "all": true,
-        "execute": true,
-        "sidecar": true,
-        "open": true
-      },
-      "dialog": {
-        "all": true,
-        "open": true,
-        "save": true
-      },
-      "http": {
-        "all": true,
-        "request": true,
-        "scope": ["http://localhost:1420", "https://1fichier.com/*"]
-      }
-    },
+  "app": {
     "windows": [
       {
-        "title": "client",
-        "width": 1200,
-        "height": 800,
-        "additionalBrowserArgs": "--disable-web-security"
+        "title": "teetable",
+        "width": 800,
+        "height": 600
       }
     ],
     "security": {
-      "csp": null,
-      "dangerousUseHttpScheme":true
-    },
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "com.tee-table.dev",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ]
-    },
-    "updater": {
-      "windows": {
-        "installMode": "basicUi"
-      },
-      "active": true,
-      "endpoints": [
-        "https://github.com/Doxteur/DL_tee-table/releases/latest/download/updater.json"
-      ],
-      "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDhEQURCRkMxRDc0RUREMzAKUldRdzNVN1h3Yit0alIzakRXMjBUUk5vMktscHBBN0I2cGloQXR4SGdWTDV3VHlMOWxraWdGejEK"
+      "csp": null
     }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
   }
 }

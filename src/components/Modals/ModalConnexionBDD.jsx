@@ -25,14 +25,13 @@ function ModalConnexionBDD({ modalIsOpen, openModal, closeModal }) {
       >
         <div class='hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center'>
           <div class='w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-primary dark:border-neutral-700 dark:shadow-neutral-700/70'>
-
             {/* Header */}
             <div class='flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700'>
               <h3
                 id='hs-scale-animation-modal-label'
                 class='font-bold text-gray-800 dark:text-white'
               >
-                Connexion
+                Nouvelle Connection
               </h3>
               <button
                 type='button'
@@ -60,10 +59,8 @@ function ModalConnexionBDD({ modalIsOpen, openModal, closeModal }) {
             </div>
             {/* Content */}
             <div class='p-4 overflow-y-auto'>
-                <NewConnectionForm/>
-
+              <NewConnectionForm />
             </div>
-
           </div>
         </div>
       </div>

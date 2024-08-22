@@ -9,6 +9,7 @@ import logo from '../assets/images/logo.png';
 import Sidebar_table from './Sidebar_Composant/Sidebar_table';
 import Sidebar_connexions from './Sidebar_Composant/Sidebar_connexions';
 import { FiGrid } from 'react-icons/fi';
+import { GrTest } from "react-icons/gr";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -99,6 +100,14 @@ function Sidebar() {
                     to='/'
                   >
                     <FiGrid size={20} color={page === '/' ? '#4ADE80' : 'white'}/>
+                  </Link>
+                </li>
+                <li className='hs-tooltip [--placement:right] inline-block'>
+                  <Link
+                    className='hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700'
+                    to='/test'
+                  >
+                    <GrTest size={20} color={page === '/test' ? '#4ADE80' : 'white'}/>
                   </Link>
                 </li>
                 {/* End Item */}

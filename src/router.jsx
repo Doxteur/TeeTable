@@ -5,6 +5,7 @@ import AuthMiddleware from './middleware/AuthMiddleware.jsx';
 import Home from './pages/Home.jsx';
 import Layout_NoSidebar from './core/Layout_NoSidebar.jsx';
 import ConnexionPage from './pages/ConnexionPage.jsx';
+import TestPage from './pages/TestPage.jsx';
 
 function router() {
   return (
@@ -27,7 +28,14 @@ function router() {
       }
       />
 
-
+      <Route
+        path='test'
+        element={
+          <Layout>
+            <TestPage />
+          </Layout>
+        }
+      />
       {/* </Route> */}
     </Routes>
   );
