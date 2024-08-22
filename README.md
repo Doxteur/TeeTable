@@ -19,8 +19,8 @@ Une application de bureau construite avec Tauri pour visualiser et modifier des 
 
 1. Clonez ce dépôt :
    ```
-   git clone https://github.com/votre-nom/tauri-sql-viewer-editor.git
-   cd tauri-sql-viewer-editor
+   git clone https://github.com/Doxteur/TeeTable/
+   cd TeeTable
    ```
 
 2. Installez les dépendances :
