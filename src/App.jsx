@@ -1,13 +1,15 @@
-import * as React from "react";
-import { useEffect } from "react";
-import { HashRouter, useLocation } from "react-router-dom";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import Router from "./router.jsx";
-import { store, persistor } from "./app/store";
-import "./app.css";
+import * as React from 'react';
+import { useEffect } from 'react';
+import { HashRouter, useLocation } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import Router from './router.jsx';
+import { store, persistor } from './app/store';
+import './app.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import "preline/preline";
+import 'preline/preline';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -18,13 +20,18 @@ const AppRouter = () => {
     }
   }, [location.pathname]);
 
-  return <Router />;
+  return (
+    <>
+      <ToastContainer />
+      <Router />
+    </>
+  );
 };
 
 const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <HashRouter basename="/">
+      <HashRouter basename='/'>
         <AppRouter />
       </HashRouter>
     </PersistGate>

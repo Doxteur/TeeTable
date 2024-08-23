@@ -1,42 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoMdGrid } from 'react-icons/io';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addActiveTable } from '../../app/reducers/Tables.js';
 
-function Side_TableName() {
+function Side_TableName({db}) {
+
+  const dispatch = useDispatch();
+  const tables = useSelector((state) => state.tables);
+
+  const handleTableClick = (tableName) => {
+    console.log("jD",tableName);
+    dispatch(addActiveTable(tableName));
+  };
+
   return (
     <div className='flex flex-col gap-2'>
-      <div className='flex items-center gap-x-2  ml-4 hover:cursor-pointer  transition-all '>
-        <IoMdGrid color='#4ADE80' />
-        <span className='text-white text-sm bg-gray-500 rounded-lg p-0.5'>Users</span>
-      </div>
-      <div className='flex items-center gap-x-2  ml-4 hover:cursor-pointer  transition-all'>
-        <IoMdGrid color='#4ADE80' />
-        <span className='text-white text-sm hover:bg-gray-500 hover:rounded-lg p-0.5'>Admin</span>
-      </div>
-      <div className='flex items-center gap-x-2  ml-4 hover:cursor-pointer  transition-all'>
-        <IoMdGrid color='#4ADE80' />
-        <span className='text-white text-sm hover:bg-gray-500 hover:rounded-lg p-0.5'>Role</span>
-      </div>
-      <div className='flex items-center gap-x-2  ml-4 hover:cursor-pointer  transition-all'>
-        <IoMdGrid color='#4ADE80' />
-        <span className='text-white text-sm hover:bg-gray-500 hover:rounded-lg p-0.5'>Clients</span>
-      </div>
-      <div className='flex items-center gap-x-2  ml-4 hover:cursor-pointer  transition-all'>
-        <IoMdGrid color='#4ADE80' />
-        <span className='text-white text-sm hover:bg-gray-500 hover:rounded-lg p-0.5'>Contacts</span>
-      </div>
-      <div className='flex items-center gap-x-2  ml-4 hover:cursor-pointer  transition-all'>
-        <IoMdGrid color='#4ADE80' />
-        <span className='text-white text-sm hover:bg-gray-500 hover:rounded-lg p-0.5'>Demandes</span>
-      </div>
-      <div className='flex items-center gap-x-2  ml-4 hover:cursor-pointer  transition-all'>
-        <IoMdGrid color='#4ADE80' />
-        <span className='text-white text-sm hover:bg-gray-500 hover:rounded-lg p-0.5'>Cinema</span>
-      </div>
-      <div className='flex items-center gap-x-2  ml-4 hover:cursor-pointer  transition-all'>
-        <IoMdGrid color='#4ADE80' />
-        <span className='text-white text-sm hover:bg-gray-500 hover:rounded-lg p-0.5'>Reservations</span>
-      </div>
-
+      {tables?.tables.map((table, index) => (
+        <div
+          key={index}
+          className={`flex items-center gap-x-2 ml-4 hover:cursor-pointer transition-all`}
+          onClick={() => handleTableClick(table.TABLE_NAME)}
+        >
+          <IoMdGrid color='#4ADE80' />
+          <span
+            className={`text-white text-sm ${
+              tables.selectedTable === table.TABLE_NAME ? 'bg-gray-500' : 'hover:bg-gray-500'
+            } rounded-lg p-0.5`}
+          >
+            {table.TABLE_NAME}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }

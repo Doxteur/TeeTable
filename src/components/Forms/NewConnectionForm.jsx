@@ -4,6 +4,11 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
+import { addConnection } from '../../app/reducers/Connection';
+
+import { useDispatch } from 'react-redux';
+import Database from '@tauri-apps/plugin-sql';
+import { toast } from 'react-toastify';
 
 const NewConnectionForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +16,8 @@ const NewConnectionForm = () => {
   const [enableSSHTunnel, setEnableSSHTunnel] = useState(false);
   const [readOnlyMode, setReadOnlyMode] = useState(false);
   const [savePasswords, setSavePasswords] = useState(true);
+
+  const dispatch = useDispatch();
 
   const connection = useSelector((state) => state.connection);
 
@@ -30,12 +37,10 @@ const NewConnectionForm = () => {
     environment: '',
   });
 
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // TODO: save connection
-    connection.connections.push(newConnection);
+    dispatch(addConnection(newConnection));
 
     console.log(newConnection);
 
@@ -54,6 +59,26 @@ const NewConnectionForm = () => {
       readOnlyMode: false,
       savePasswords: true,
     });
+  };
+
+  const handleTestConnection = async () => {
+    console.log('test connection');
+    const { username, password, host, port, database } = newConnection;
+    const connectionString = `mysql://${username}:${password}@${host}:${port}/${database}`;
+
+    // If successful, show a success message
+
+    // If not, show an error message
+
+    // Reset the form
+    try {
+      const db = await Database.load(connectionString);
+      console.log('Connexion à la base de données spécie:', db);
+      toast.success('Connexion à la base de données');
+    } catch (error) {
+      console.log(error);
+      toast.error(error);
+    }
   };
 
   return (
@@ -78,7 +103,7 @@ const NewConnectionForm = () => {
             className='w-full bg-primary appearance-none border-2 border-secondary p-2'
             onChange={(event) => (newConnection.environment = event.target.value)}
           >
-            <option >Local</option>
+            <option>Local</option>
             <option>Staging</option>
             <option>Production</option>
           </select>
@@ -90,7 +115,7 @@ const NewConnectionForm = () => {
             className='w-full bg-primary appearance-none border-2 border-secondary p-2'
             onChange={(event) => (newConnection.type = event.target.value)}
           >
-            <option>TiDB</option>
+            <option>MySQL</option>
           </select>
         </div>
 
@@ -199,6 +224,7 @@ const NewConnectionForm = () => {
           <button
             type='button'
             className='bg-secondary text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-200 ease-in-out'
+            onClick={handleTestConnection}
           >
             Test
           </button>

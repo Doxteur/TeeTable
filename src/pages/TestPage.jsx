@@ -24,7 +24,6 @@ function TestPage() {
           database: 'sdf_infoexcl144',
           ssl: false,
         }
-        connection.connections.push(newConnection);
         console.log('Database connection successful:', db);
 
         // Get database table

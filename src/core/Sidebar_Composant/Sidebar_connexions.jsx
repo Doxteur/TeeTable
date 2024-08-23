@@ -1,11 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Side_TableName from './Side_TableName.jsx';
-import { FaPlus } from 'react-icons/fa';
-
+import { FaPlus, FaCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import Database from '@tauri-apps/plugin-sql';
+import { setSelectedConnection } from '../../app/reducers/Connection.js';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { setTableData } from '../../app/reducers/Tables.js';
 
 function Sidebar_connexions() {
-  const connections = useSelector((state) => state.connection);
+  const connections = useSelector((state) => state.connection.connections);
+  const data = useSelector((state) => state.tables.data);
+
+  const [connectionStatuses, setConnectionStatuses] = useState({});
+  const dispatch = useDispatch();
+
+  const connectToDatabase = async (connection) => {
+    const { username, password, host, port, database } = connection;
+    const connectionString = `mysql://${username}:${password}@${host}:${port}/${database}`;
+
+    try {
+      const db = await Database.load(connectionString);
+      console.log('Connexion à la base de données réussie:', db);
+
+      return { success: true, db };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
+  const connectToAllDatabases = async () => {
+    const statuses = {};
+    for (const connection of connections) {
+      const result = await connectToDatabase(connection);
+      console.log(result);
+      statuses[connection.name] = result.success;
+    }
+    setConnectionStatuses(statuses);
+  };
+
+  useEffect(() => {
+    if (connections.length > 0) {
+      console.log('Tentative de connexion aux bases de données');
+      connectToAllDatabases();
+    }
+  }, [connections]);
+  const openDatabase = (connection) => {
+    dispatch(setSelectedConnection(connection));
+  };
+
+  const renderConnectionItem = (connection) => {
+    const isConnected = connectionStatuses[connection.name];
+    return (
+      <div key={connection.name} className='flex items-center gap-2 mb-2'>
+        <FaCircle color={isConnected ? 'green' : 'red'} size={10} />
+        <Link to='/'>
+          <button className='text-white cursor:pointer' onClick={() => openDatabase(connection)}>
+            {connection.name}
+          </button>
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <div className='w-72 bg-white border-x border-gray-200 dark:bg-primary dark:border-neutral-700'>
@@ -45,7 +101,7 @@ function Sidebar_connexions() {
             data-hs-accordion-always-open=''
           >
             <div className='p-4'>
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2 mb-4'>
                 <h2 className='text-white'>Local</h2>
                 <button
                   type='button'
@@ -61,11 +117,8 @@ function Sidebar_connexions() {
                   />
                 </button>
               </div>
-              {/* Map on collections.collections and search for collections.environment = 'local' */}
-              {connections.connections.map((connection) => {
-                return <h1>{connection.name}</h1>;
-              })}
-              <div className='flex items-center gap-2'>
+              {connections.map(renderConnectionItem)}
+              <div className='flex items-center gap-2 mt-4'>
                 <h2 className='text-yellow-500 '>Staging</h2>
                 <FaPlus
                   color='white'
@@ -73,7 +126,7 @@ function Sidebar_connexions() {
                   className='hover:scale-125 transition-all hover:cursor-pointer'
                 />
               </div>
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2 mt-4'>
                 <h2 className='text-red-500'>Production</h2>
                 <FaPlus
                   color='white'
